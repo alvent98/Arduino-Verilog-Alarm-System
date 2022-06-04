@@ -1,5 +1,6 @@
 bool alarm = false;
 bool armed = false;
+#define LED 5
 
 void setup()
 {
@@ -7,6 +8,7 @@ void setup()
   pinMode(3, INPUT_PULLUP);
   pinMode(4, INPUT_PULLUP);
   pinMode(LED_BUILTIN, OUTPUT);
+  pinMode(LED, OUTPUT);
   Serial.begin(9600);
 }
 
@@ -30,13 +32,19 @@ void loop()
       alarm = false;
       Serial.println("DISARM");
       digitalWrite(LED_BUILTIN, LOW);
+      digitalWrite(LED, LOW);
     }
   }
   if(armed) {
     if(m1 == 0 | m2 == 0 | r == 0 | alarm) {
       alarm = true;
-      digitalWrite(LED_BUILTIN, HIGH);
       Serial.println("BURGLARS!!!!");
+      digitalWrite(LED_BUILTIN, HIGH);
+      digitalWrite(LED, HIGH);
+      delay(250);
+      digitalWrite(LED_BUILTIN, LOW);
+      digitalWrite(LED, LOW);
+      delay(250);
     }
   } 
 }
